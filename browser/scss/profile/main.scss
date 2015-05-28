@@ -1,0 +1,88 @@
+#userProfile{
+	.justified{
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        
+        .row{
+            box-shadow: rgb(13, 139, 217) 0 0 24px, rgb(13, 139, 217) 0 0 24px;
+            border: 7px double white;
+            padding: 5px;
+            background-color: rgb(63, 64, 68);
+        }
+        h4{
+            font-size: 24px;
+            padding: 0 5px;
+            border: 4px double white;
+            background-color: black;
+        }
+    }
+    #center{
+            justify-content: center;
+    }
+    h2{
+        text-align: center;
+    }
+    h6{
+        margin-top: 7px;
+        font-size: 21px;
+        margin-bottom: 7px;
+    }
+    .group{
+        h2{
+            background: rgb(13, 139, 217);
+            width: 100%;
+            color: rgb(13, 139, 217);
+            border-radius: 10px;
+            box-shadow: 0 0 14px rgb(255, 255, 255), 0 0 14px white;
+            padding: 7px;
+            transition: All 0.5s;
+            text-shadow: 3px 3px 14px black, -3px -3px 14px black, -3px 3px 14px black, 3px -3px 14px black;
+        }
+        h2:hover{
+            background: #004bbe;
+        }
+        h2.activated{
+            color: lime;
+            background-color: lime;
+        }
+        transition: All 0.5s;
+        margin: -20px 20px 0;
+        .eventModal{
+            border: white double 10px;
+            padding: 7px 21px;
+            box-shadow: #0d8bd9 0 0 24px, #0d8bd9 0 0 24px;
+            position: absolute;
+            left: 10%;
+            top: 150px;
+            width: 80%;
+        }
+    }
+    .group:hover{
+        margin: -20px 30px 0;
+    }
+	.btn{
+        border:outset 5px rgb(13, 139, 217);
+        padding: 0px 2px;
+        transition: All 0.5s;
+    }
+    .btn:hover{
+        background-color: #004bbe;
+        box-shadow: white 0 0 24px,white 0 0 24px;
+    }
+    color: black;
+    text-shadow: -3px 3px 14px #0d8bd9, 3px -3px 14px #0d8bd9, -3px -3px 14px #0d8bd9, 3px 3px 14px #0d8bd9;
+    button{
+        display: block;
+        height: 30px;
+        text-shadow: none;
+        background-color: black;
+        color: white;
+        &:btn{
+            border-color: #0d8bd9;
+        }
+    }
+    a:hover{
+    	text-decoration:none
+    }
+}

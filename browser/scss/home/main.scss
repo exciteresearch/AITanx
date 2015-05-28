@@ -1,0 +1,63 @@
+#home {
+  	fullstack-logo {
+    padding-top: 30px;
+    width: 150px;
+    margin: 0 auto;
+  	}
+  	.justified{
+  		display: flex;
+  		justify-content: space-around;
+  	}
+  	.bits{
+  		p{
+  			min-height:90px; 
+  		}
+  	}
+  	.btn{
+  		background: rgb(13, 139, 217);
+        width: 100%;
+        font-size: 25px;
+
+        color: rgb(13, 139, 217);
+        border-radius: 10px;
+        box-shadow: 0 0 14px rgb(255, 255, 255), 0 0 14px white;
+        padding: 7px;
+        transition: All 0.5s;
+        text-shadow: 3px 3px 14px black, -3px -3px 14px black, -3px 3px 14px black, 3px -3px 14px black;
+  	}
+  	.btn:hover{
+        background: #004bbe;
+    }
+	.carousel-caption{
+		padding-bottom: 65px;
+	}
+	.carousel-indicators{
+		bottom: 35px;
+		li{
+			width: 20px;
+			height: 20px;
+		}
+		li.active{
+			background-color: rgb(39, 148, 221);
+			width: 20px;
+			height: 20px;
+		}
+	}
+  img.slide{
+  	width: 80%;
+  	margin-left: 10%;
+  }
+  img.knight{
+    margin-top: 25px;
+  	margin-bottom: 25px;
+  }
+  h2{
+  	min-height: 66px;
+  }
+
+  h1 {
+    margin-top: 40px;
+    text-align: center;
+  }
+}
+

@@ -1,0 +1,110 @@
+<section id="editor">
+	<div ng-controller="mainEditorCtrl">
+		<div ng-controller="SelectBotModalCtrl">
+			<div class='modalBackground' ng-class="{hideSelectBotModal: bot._id !== undefined}" ng-click="">
+					<div class='modalSelectBot justified' ng-class="{hideSelectBotModal: bot._id !== undefined}">
+						<div class="justified top-space">
+							<div>
+							<!-- title -->
+								<h3>Select AI:</h3>
+								<!-- content -->
+								<select ng-options="bot.botname for bot in botList" ng-model="bot" ng-change="selectBot(bot)">
+								</select>
+							</div>
+							<div>
+							<!-- cancel button -->
+		                		<h3>Or Build a New One:</h3>
+		                		<button ng-click="createBlankBot()" type="submit" class="btn ">Blank Bot</button>
+		                	</div>
+						</div>
+					</div>
+			</div>
+		</div>
+		<div  ng-hide="false" ng-model+="eventsObj" >
+
+	<!-- 		<h1 id="eventsObj-eventID" ng-show="eventsObj.eventID" class="animated fadeInRight" >Room: {{eventsObj.eventID}}</h1> -->
+
+		</div>
+ 	    <div ng-controller="PlayCanvasEditorCtrl" class="col-lg-12 col-sm-12">   
+		    <div class="editor animated fadeInRight"  ng-controller="CodeEditorCtrl">
+				<h4>Code Editor</h4>
+				<div id="ace" ng-model="bot.botCode" ui-ace="{
+												useWrapMode : true,
+												showGutter: true,
+												theme:'monokai',
+												mode: 'javascript',
+												showPrintMargins: true,
+												onLoad: aceLoaded,
+												onChange: aceChanged
+												}" style=" font-family: monospace;">
+				</div>
+				<div class="justified">
+					<div>
+	                	<input ng-model="bot.botname" type="text" placeholder="{{bot.botname}}" id="botname">
+	                </div>
+	                <div>
+	                	<button ng-click="saveBot()" type="submit" class="btn btn-success">Save</button>
+	                </div>
+	                <div>	
+	                	<button ng-click="simBot(); editorToggle()" type="submit" class="btn btn-success">Practice</button>
+	                </div>
+	                <div>
+	                	<button ng-click="compete(); editorToggle()" type="submit" class="btn btn-success">Compete</button>
+	                </div>
+	            </div>    
+			</div>
+			<div id="draggable">
+	   		    <div id="optionsModal" ng-class="{activated: optionsActivated}">
+	   		    	<div id="bar">
+			   		   	<div>
+			   		   		<h4>Display Options</h4>
+			   		   	</div>
+		   		   	</div>
+		   		   	<div>
+			   			<form>
+			   				<div ng-repeat="option in options" class="space-between double">
+				   				<h6>Tank {{option.text}}:</h6>
+				   				<input type="checkbox" ng-model="option.active">
+			   				</div>
+			   			</form>
+			   		</div>
+	   		    </div>
+				<div class="console" >
+		   		   	<divider id="bar">
+			   		   	<div>
+			   		   		<h4>Console</h4>
+			   		   	</div>
+			   		   	<div>	
+			   		   		<img ng-click="optionsActivated=!optionsActivated" id="options" src="/images/gear.png">
+			   		   		<img src="/images/drag_icon.png">
+			   		   	</div>
+			   		</divider>
+
+		   		   	<div class="adjustable top">
+		   		   		<h5>Bot Actions: </h5>
+		   		   		<h7>{{tank.actions[0]}}</h7>
+		   		   		<h7>{{tank.actions[1]}}</h7>
+		   		   		<h7>{{tank.actions[2]}}</h7>
+		   		   		<h7>{{tank.actions[3]}}</h7>
+		   		   		<h7>{{tank.actions[4]}}</h7>
+		   		   	</div>
+		   		   	<div >
+		   		    	<h5>Bot Stats: </h5>
+		   		    	<div >
+		   		    		<div ng-repeat="option in options" ng-if="option.active===true" class="float">
+		   		    			<h7>{{option.text}}: {{option.value}}</h7>
+		   		    		</div>
+		   		    	</div>
+		   		    </div>
+			   	</div>
+   	   		    
+		   	</div>
+	   	    <script src="../../scripts/draggable.js"></script>
+	   	    <div id="viewer" ng-click="editorToggle()" ng-if="simLaunched && !editorOn" class="animated fadeInRight">
+	   	    	<iframe  id="iframe" ng-src="{{playCanvasURL}}" ></iframe>
+	   	    </div>   
+	    </div>
+		<script>
+		</script>  
+    </div>	    
+</section>

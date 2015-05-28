@@ -1,0 +1,71 @@
+<section id="userProfile"> 
+	<div id="center" ng-controller="UserProfileController" class="justified">
+		<div class="group">
+			<h2 ng-click="setProfileEvent('challenges')" ng-class="{activated: profileEvent==='challenges'}">Challenges</h2>
+			<div ng-if="profileEvent==='challenges'"class="justified eventModal">
+				<div class="row">
+					<h4>Challenger</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.challenger.username}}</h6>
+				</div>
+				<div class="row">
+					<h4>Rank</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.challenger.rank}}</h6>
+				</div>
+				<div class="row">
+					<h4>Challenged</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.challenged.username}}</h6>
+				</div>
+				<div class="row">
+					<h4>Rank</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.challenged.rank}}</h6>
+				</div>
+				<div class="row">
+					<h4>Time Deadline</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.deadLine}}</h6>
+				</div>
+				<div class="row">
+					<button ng-if="!challenge.accepted" ng-click="acceptChallenge(challenge)" class="btn">Accept</button>
+				</div>	
+			</div>	
+		</div>
+		<div class="group">
+			<h2 ng-click="setProfileEvent('bots')" ng-class="{activated: profileEvent==='bots'}">My AIs</h2>
+			<div ng-if="profileEvent==='bots'" class="justified eventModal">
+				<div class="row">
+					<h4>AI Tank</h4>
+					<h6 ng-repeat="bot in botList">{{bot.botname}}</h6>
+				</div>
+				<div class="row">
+					<h4>Battles</h4>
+					<h6 ng-repeat="bot in botList">{{bot.battles}}</h6>
+				</div>
+				<div class="row">
+					<h4>Points</h4>
+					<h6 ng-repeat="bot in botList">{{bot.points}}</h6>
+				</div>
+				<div class="row">
+					<h4>Wins</h4>
+					<h6 ng-repeat="bot in botList">{{bot.wins}}</h6>
+				</div>
+				<div class="row">
+					<h4>Times Forked</h4>
+					<h6 ng-repeat="bot in botList">{{bot.forked}}</h6>
+				</div>
+				<div class="row">
+					<h4>Edit</h4>
+					<button ng-repeat="bot in botList" class="btn" ng-click="editBot(bot)">Edit</button>
+				</div>
+				<div class="row">
+					<h4>Delete</h4>
+					<button ng-repeat="bot in botList" class="btn" ng-click="deleteBot(bot)">Delete</button>
+				</div>
+			</div>
+		</div>
+		<div class="group">
+				<a ui-sref="editor"><h2>Create New AI Tank</h2></a>
+		</div>
+	</div>
+	</div>
+	
+</div>
+</section>

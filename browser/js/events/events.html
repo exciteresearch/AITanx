@@ -1,0 +1,147 @@
+<section id="events" ng-controller="mainEventCtrl"> 
+	<div ng-controller="EventsController">
+		<div ng-controller="LaunchBotModalCtrl">
+			<div class='modalBackground justified' ng-if="showSelectBotModal" >
+				<div class='modalSelectBot justified' ng-if="showSelectBotModal">
+					<div class="justified top-space">
+						<div>
+						<!-- title -->
+							<h3>Select AI Tank:</h3>
+							<!-- content -->
+							<select ng-options="bot.botname for bot in botList" ng-model="bot" ng-change="selectBot(bot);">
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- PlayCanvas iFrame viewable with 'Launch' -->
+			<div ng-controller="PlayCanvasCtrl" ng-if="eventLaunched" class="justified">
+				<iframe ng-src="{{playCanvasURL}}" ></iframe>
+			</div>
+		</div>
+		
+		<div id="center" ng-model="eventsObj" class="justified">
+			<!-- Live Events for display only with 'viewer functionality' -->
+			<div class="group">
+				<h2 ng-click="setCurrentEvent('live')" ng-class="{activated: currentEvent==='live'}" ng-hide="showSelectBotModal">Live Events</h2>
+			</div>
+			<!-- Arena Battles -->
+			<div class="group">
+				<h2 ng-click="setCurrentEvent('arena')" ng-class="{activated: currentEvent==='arena'}" ng-hide="showSelectBotModal">Available Arenas</h2>
+			</div>	
+			<!-- Announce a 'New Battle Arena' Button -->
+			<div class="group">
+				<h2 ng-click="setCurrentEvent('host'); data.createEvent = true" ng-class="{activated: currentEvent==='host'}" ng-hide="showSelectBotModal">Create New Arena</h2>
+			</div>		
+			<!-- Challenge another player -->
+			<div class="group">
+				<h2 ng-click="setCurrentEvent('challenges'); " ng-class="{activated: currentEvent==='challenges'}" ng-hide="showSelectBotModal">Challenges</h2>
+			</div>
+		</div>
+		
+		
+		<div id="center" class="eventModal"  class="justified">
+			<div ng-if="currentEvent==='live'"  class="justified">
+				<div class="row">
+					<h4>Host Player</h4>
+					<h6 ng-repeat="user in userRank">{{event.p1_user_name}}</h6>
+				</div>
+				<div class="row">
+					<h4>Rank</h4>
+					<h6 ng-repeat="user in userRank">{{event.p1_rank}}</h6>
+				</div>
+				<div class="row" ng-repeat="user in userRank">
+				<h4>VS</h4>
+				</div>
+				<div class="row">
+					<h4>Challenger</h4>
+					<h6 ng-repeat="user in userRank">{{event.p2_user_name}}</h6>
+				</div>
+				<div class="row">
+					<h4>Rank</h4>
+					<h6 ng-repeat="user in userRank">{{event.p2_rank}}</h6>
+				</div>
+				<div class="row">
+					<h4>Challenge</h4>
+					<a ng-repeat="user in userRank"><button class="btn" ng-click="challengeUser(user)">Challenge</button></a>
+				</div>
+				<div class="row">
+					<h4>Watch</h4>
+					<a ng-show="!event.owner"ng-repeat="user in userRank"><button class="btn" ng-click="watch(event)">Watch</button></a>
+				</div>
+			</div>
+			<div ng-if="currentEvent==='arena'" class="justified eventModal">
+				<div class="row">
+					<h4>Creator</h4>
+					<h6 ng-repeat="event in pendingEvents">{{event.createdBy.username}}</h6>
+				</div>
+				<div class="row">
+					<h4>Rank</h4>
+					<h6 ng-repeat="event in pendingEvents">{{event.createdBy.rank}}</h6>
+				</div>
+				<div class="row">
+					<h4>Specs</h4>
+					<h6 ng-repeat="event in pendingEvents">{{event.specs}}</h6>
+				</div>
+				<div class="row">
+					<h4>Opponent Slots</h4>
+					<h6 ng-repeat="event in pendingEvents">{{event.slots}}</h6>
+				</div>
+				<div class="row">
+					<h4>Actions</h4>
+					<div ng-repeat="event in pendingEvents" class="justified">
+						<!-- Always confirm the confirm bot to battle with using selectBotModal -->
+						<button ng-show="!eventLaunched" ng-hide="playCanvasURL" class="btn" ng-click="joinEvent($index)">
+							Launch
+						</button>
+						<button ng-hide="!eventLaunched" ng-hide="playCanvasURL" class="btn" ng-click="forfeit($index)">
+							Forfeit
+						</button>
+						<button ng-show="!eventLaunched" ng-hide="!!playCanvasURL" class="btn" ng-click="deleteEvent($index)">
+							Remove
+						</button>
+					</div>
+				</div>
+			</div>	
+			<div ng-if="currentEvent==='host'" id="newEvent">
+				<h2 ng-show="data.createEvent">New Arena</h2>
+				<div class="justified">
+					<form ng-show="data.createEvent" ng-submit="createNewEvent(data)">
+						<textarea rows="6" cols="50" placeholder="Player Preferences" ng-model="data.specs"></textarea>
+						<div class="space-between">
+							<h3>Number of Open Slots:</h3>
+							<input required type="number" min="0" max="11" placeholder="Open Slots" ng-model="data.slots" ></input>
+							<button type="submit" class="btn ">Confirm Creation</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div ng-if="currentEvent==='challenges'" class="justified eventModal">
+				<div class="row">
+					<h4>Challenger</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.challenger.username}}</h6>
+				</div>
+				<div class="row">
+					<h4>Rank</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.challenger.rank}}</h6>
+				</div>
+				<div class="row">
+					<h4>Challenged</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.challenged.username}}</h6>
+				</div>
+				<div class="row">
+					<h4>Rank</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.challenged.rank}}</h6>
+				</div>
+				<div class="row">
+					<h4>Time DeadLine</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.deadline}}</h6>
+				</div>
+				<div class="row">
+					<h4>Status</h4>
+					<h6 ng-repeat="challenge in challenges">{{challenge.accepted}}</h6>
+				</div>	
+			</div>
+		</div>
+	</div>
+</section>

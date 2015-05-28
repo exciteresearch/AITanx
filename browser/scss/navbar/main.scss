@@ -1,0 +1,22 @@
+#navbar{
+	color: #2794DD;
+	.navbar-inverse{
+	background-color: #292A2C;
+	}
+	.navbar-inverse .navbar-brand{
+		color: #2794DD;
+	}
+	.navbar-inverse .navbar-nav{
+		li{
+			a{
+				color: #2794DD;
+			}
+		}
+		.active a{
+			text-shadow: -3px -3px 7px #2794DD,
+						 -2px -2px 7px #2794DD,
+						 2px 2px 7px #2794DD,
+						 3px 3px 7px #2794DD;;
+		}
+	}
+}

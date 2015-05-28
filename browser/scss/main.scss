@@ -1,0 +1,37 @@
+* {
+
+  box-sizing: border-box;
+  	body{
+  		background: black;
+  		td{
+  			padding:5px;
+  			font-size: 20px;
+  			color: white;
+  		}
+  		th{
+  		font-size: 25px;
+  		color: white}
+  		h2{
+  		font-size: 30px;
+  		color: white}
+  	}
+}
+
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+@import 'events/main';
+@import 'directives/main';
+@import 'home/main';
+@import 'about/main';
+@import 'tutorial/main';
+@import 'login/main';
+@import 'navbar/main';
+@import 'editor/main';
+@import 'leader/main';
+@import 'profile/main';

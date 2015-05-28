@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/" />
+    <title>FSB - FullStack Bots</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="/lodash/lodash.js"></script>
+    <script src="/jquery/dist/jquery.js"></script>
+    <script src="/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/angular/angular.js"></script>
+    <script src="/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/angular-uuid/uuid.js"></script>
+    <script src="/socket.io-client/socket.io.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!-- ui.ace -->
+    <script type="text/javascript" src="/ace-builds/src-min-noconflict/ace.js"></script>
+	<script type="text/javascript" src="/angular-ui-ace/ui-ace.js"></script>
+	<!-- ui-ace end      <style> .ace_editor { height:100%; width: 100%; font-family: monospace; } </style>
+	 -->
+    <script src="/main.js"></script> 
+</head>
+<body ng-app="FullstackBotsApp">
+        <!--div class="navbar-wrapper" >
+          <div class="container">
+            <nav class="navbar navbar-inverse navbar-static-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">Deus Tanx Machina</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                  <ul class="nav navbar-nav">
+                    <li ng-click="activate(about)" ><a href="/">Home</a></li>
+                    <li ng-click="activate()" ng-class="{active: current='about'">
+                      <a href="about">About</a></li>
+                    <li ng-click="activate()"><a href="tutorial">Tutorial</a></li>
+                     <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
+        <button ng-show="!user" ui-sref="register" class="btn login-button">Register</button>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+          </div>
+        </div -->
+        <navbar></navbar>
+    <div ui-view></div>
+</body>
+</html>

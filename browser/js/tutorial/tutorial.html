@@ -1,0 +1,47 @@
+<section id="tutorial">
+	<div ng-controller="TutorialCtrl" class="just">
+		<div >
+			<div class="justified top center"><h1>Library of Functions</h1></div>
+			<div class="justified top"><h1>Example Functions</h1><h1>Function's Result</h1></div>
+			<div class="justified"><h4>tankDoThis()</h4><h4>Takes an action such as "shoot", "layMine", of "move" and causes the tank to take that action.</h4></div>
+			<div class="justified"><h4>stuck()</h4><h4>Returns true if the tank has been unable to continue on its given path.</h4></div>
+			<div class="justified"><h4>completedPath()<h4>Returns true is a path given to the tank has been completed.</h4></div>
+			<div class="justified"><h4>followPath()</h4><h4>Commands tank to follow a designated path</h4></div>
+			<div class="justified"><h4>turnTurret()</h4><h4>Takes a number(either positive or negative) and turns the tanks's turret that many degrees </h4></div>
+			<div class="justified"><h4>wander()</h4><h4>Tells the tanks to move towards a randomly chosen destination unless higher priorities are discovered.</h4></div>
+			<div class="justified"><h4>randomDirection()</h4><h4>Chooses a random direction for the tank to move towards</h4></div>
+			<div class="justified"><h4>moveToRegion()</h4><h4>Takes an numerical argument (0-8) that tells the tank to move to one of nine sectors on the map</h4></div>
+			<div class="justified"><h4>seekPriorities()</h4><h4>Tells the tank to move towards the highest priorities it encounters</h4></div>
+			<div class="justified"><h4>setPriority</h4><h4>Takes two arguments, a target and a numeric priority and deignates that target as having the priority.</h4></div>
+		</div>
+	</div>	
+    <!-- <tutorial-section-menu ng-model="currentSection.section" sections="sections"></tutorial-section-menu> -->
+   <!--  <tutorial-section>
+		
+	    <div class="col-lg-6 col-sm-12">	    
+		    <div ng-controller="CodeEditorCtrl" class="col-lg-6 col-sm-12" style="width:100%;height:280px;border: dashed black 1px;">
+				<h4>Code Editor</h4>
+					<div ng-model="bot.botCode" ui-ace="{
+													useWrapMode : true,
+													showGutter: true,
+													theme:'monokai',
+													mode: 'javascript',
+													showPrintMargins: true,
+													onLoad: aceLoaded,
+													onChange: aceChanged
+													}" style="height:70%; width: 100%; font-family: monospace;">
+					</div>
+                <button ng-click="saveBot()" type="submit" class="btn btn-success">Save</button>
+			</div>
+		    <div class="col-lg-6 col-sm-12" style="width:100%;height:200px;border: dashed black 1px;"><h4>Console</h4></div>
+	<div class="col-lg-6 col-sm-12" style="width:100%;height:20px;">
+		<button>PRACTICE</button><button>COMPETE</button>
+	</div>
+
+            id="{{ section }}"
+            name="{{ section }}"
+            videos="videos[section]"
+            background="{{ colors[$index] }}"
+            ng-repeat="section in sections">
+    </tutorial-section> -->
+</section>

@@ -1,0 +1,71 @@
+<section id="leader"> 
+	<div id="center" class="justified">
+		<!-- Live Events for display only with 'viewer functionality' -->
+		<div class="group">
+			<h2 ng-click="setRanking('user')" ng-class="{activated: currentRanking==='user'}">User Rank</h2>
+		</div>
+		<div class="group">
+			<h2 ng-click="setRanking('tank')" ng-class="{activated: currentRanking==='tank'}">AI Tank Rank</h2>
+		</div>
+	</div>	
+	<div id="center" class="justified">
+		<div class="justified " ng-controller="LeaderBoardController">
+			<div class="group" ng-if="currentRanking==='user'" >
+				<h2 class="activated">User Rank</h2>
+				<div class="justified">
+					
+					<div class="row">
+						<h4>User Name</h4>
+						<h6 ng-repeat="user in userRank">{{user.username}}</h6>
+					</div>
+					<div class="row">
+						<h4>Rank</h4>
+						<h6 ng-repeat="user in userRank">{{user.rank}}</h6>
+					</div>
+					<div class="row">
+						<h4>Points</h4>
+						<h6 ng-repeat="user in userRank">{{user.points}}</h6>
+					</div>
+					<div class="row">
+						<h4>Challenge</h4>
+						<div class="justified">
+							<div>
+								<button ng-repeat="user in userRank" class="btn" ng-click="challengeUser(user)">Challenge</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="group" ng-if="currentRanking==='tank'">
+				<h2 class="activated">AI Tank Rank</h2>
+				<div class="justified">
+					<div class="row">
+						<h4>AI Name</h4>
+						<h6 ng-repeat="bot in botRank">{{bot.botname}}</h6>
+					</div>
+					<div class="row">
+						<h4>Wins</h4>
+						<h6 ng-repeat="bot in botRank">{{bot.wins}}</h6>
+					</div>
+					<div class="row">
+						<h4>Points</h4>
+						<h6 ng-repeat="bot in botRank">{{bot.points}}</h6>
+					</div>
+					<div class="row">
+						<h4>Battles</h4>
+						<h6 ng-repeat="bot in botRank">{{bot.battles}}</h6>
+					</div>
+					<div class="row">
+						<h4>Fork</h4>
+						<div class="justified">
+							<div>
+								<button ng-repeat="bot in botRank" class="btn" ng-click="forkBot(bot)">Fork</button>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>	
+	</div>
+</div>
+</section>
