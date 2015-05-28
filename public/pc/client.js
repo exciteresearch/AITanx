@@ -51,8 +51,9 @@ pc.script.create('client', function (context) {
             var self = this;
             var servers = {
                 'local': 'http://localhost:30043/socket', // local
-//                'fsb': 'http://192.168.1.216:30043/socket', //fsb
+                'fsb': 'http://192.168.1.216:30043/socket', //fsb
                 'fsb': 'http://localhost:30043/socket', //fsbx
+                'fsb': 'http://45.55.187.76:30043/socket', //fsb digital ocean
                 'us': 'http://54.67.22.188:30043/socket', // us
                 'default': 'https://tanx.playcanvas.com/socket' // load balanced
             };
