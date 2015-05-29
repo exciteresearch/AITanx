@@ -22,10 +22,7 @@ app.factory('BotCodeFactory', function ($http,$state) {
         saveBot: function (bot) {
         	var data; //data packet to send
         	data = { bot: bot };
-
             return $http.post('/api/dispatcher/saveFile/', data).then(function(res) {
-//                update.currentOrder = res.data;
-//                update.justOrdered = true;
             	return res.data;
               }, function(err) {
                   throw new Error(err);
