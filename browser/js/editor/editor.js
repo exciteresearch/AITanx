@@ -27,13 +27,26 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('mainEditorCtrl',function($scope, $stateParams){
-	$scope.editorOn=true;
-	$scope.editorToggle = function(){
-		$scope.editorOn=!$scope.editorOn;
+	
+	$scope.editorOn=false;
+	
+	$scope.editorToggle = function(){		
+		console.log('toggle $scope.editorOn is',$scope.editorOn);
+		if($scope.editorOn === true){
+			$scope.editorOn=false;
+		} 
+		else {
+			$scope.editorOn=true;
+		}
+		console.log('toggle $scope.editorOn is now',$scope.editorOn);
 	};
+	
 	$scope.eventsObj = {};
+	
 	$scope.$on('refreshEventObj',function(event, data){
+		console.log('refreshEventObj end $scope.editorOn',$scope.editorOn);
 		$scope.eventsObj = data;
+		console.log('refreshEventObj end $scope.editorOn',$scope.editorOn);
 	});
 });
 
@@ -59,22 +72,24 @@ app.controller('SelectBotModalCtrl', function ($scope, $stateParams, AuthService
     $scope.selectBot = function( bot ) {
 		BotCodeFactory.editBot($scope.user._id, bot._id ).then(function(bot){
 			$scope.bot = bot;
+			$scope.editorOn=true;
 		});
     };
     
     $scope.createBlankBot = function() {
 		BotCodeFactory.createBlankBot($scope.user._id).then(function(bot){
 			$scope.bot = bot;
+			$scope.editorOn=true;
 		});
     };
     
 });
 
-app.controller('PlayCanvasEditorCtrl',function($scope, $stateParams, $sce,uuid4){
+app.controller('PlayCanvasEditorCtrl',function($scope, $stateParams, $sce, uuid4){
 	$scope.optionsActivated=false;
 	$scope.simLaunched = false;
-	$scope.actions=
-	$scope.options={
+	
+	$scope.actions = $scope.options = {
 		shots:{
 			active:false,
 			text:"Shots",
@@ -110,9 +125,11 @@ app.controller('PlayCanvasEditorCtrl',function($scope, $stateParams, $sce,uuid4)
 			text:"Deaths",
 			value: 0
 		},
-	}
+	};
 	
     $scope.$on('simulate',function(event, bot) {
+		console.log('simulate end $scope.editorOn',$scope.editorOn);
+
     	if(!bot._id) {
         	$scope.simLaunched = false;
         }
@@ -128,6 +145,7 @@ app.controller('PlayCanvasEditorCtrl',function($scope, $stateParams, $sce,uuid4)
 			);
         	$scope.simLaunched = true;
         }
+		console.log('simulate end $scope.editorOn',$scope.editorOn);
     });
 });
 
@@ -143,6 +161,7 @@ app.controller('CodeEditorCtrl',function($scope, $stateParams, BotCodeFactory, A
 	if ($stateParams.defaultBotID !== undefined){
 		BotCodeFactory.getBot($stateParams.defaultBotID).then(function(bot){
 			$scope.bot = bot;
+			$scope.editorOn=true;
 		});
 	}	
 	
@@ -151,8 +170,11 @@ app.controller('CodeEditorCtrl',function($scope, $stateParams, BotCodeFactory, A
 	};
 	
 	$scope.simBot = function(){
+		console.log('simBot() start $scope.editorOn',$scope.editorOn);
 		BotCodeFactory.saveBot($scope.bot);
+		console.log('simBot() middle $scope.editorOn',$scope.editorOn);
 		$scope.$emit('simulate', $scope.bot);
+		console.log('simBot() end $scope.editorOn',$scope.editorOn);
 	};
 	
 	// ui.ace start

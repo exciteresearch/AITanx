@@ -1,6 +1,6 @@
 <section id="editor">
 	<div ng-controller="mainEditorCtrl">
-		<div ng-controller="SelectBotModalCtrl" ng-hide="bot.botCode">
+		<div ng-controller="SelectBotModalCtrl" ng-hide="editorOn">
 			<div class='modalBackground' ng-class="{hideSelectBotModal: bot._id !== undefined}">
 					<div class='modalSelectBot justified' ng-class="{hideSelectBotModal: bot._id !== undefined}">
 						<div class="justified top-space">
@@ -20,13 +20,13 @@
 					</div>
 			</div>
 		</div>
-		<div  ng-hide="false" ng-model+="eventsObj" >
+		<div ng-hide="false" ng-model+="eventsObj" >
 
 	<!-- 		<h1 id="eventsObj-eventID" ng-show="eventsObj.eventID" class="animated fadeInRight" >Room: {{eventsObj.eventID}}</h1> -->
 
 		</div>
  	    <div ng-controller="PlayCanvasEditorCtrl" class="col-lg-12 col-sm-12">   
-		    <div class="editor animated fadeInRight"  ng-controller="CodeEditorCtrl" ng-show="bot.botCode"> 
+		    <div class="editor animated fadeInRight" ng-controller="CodeEditorCtrl" ng-show="editorOn">
 				<h4>Code Editor</h4>
 				<div id="ace" ng-model="bot.botCode" ui-ace="{
 												useWrapMode : true,
@@ -53,7 +53,7 @@
 	                </div>
 	            </div>    
 			</div>
-			<div id="draggable" ng-show="bot.botCode">
+			<div id="draggable">
 	   		    <div id="optionsModal" ng-class="{activated: optionsActivated}">
 	   		    	<div id="bar">
 			   		   	<div>
@@ -100,7 +100,7 @@
    	   		    
 		   	</div>
 	   	    <script src="../../scripts/draggable.js"></script>
-	   	    <div id="viewer" ng-click="editorToggle()" ng-if="simLaunched && !editorOn" class="anima	ted fadeInRight" ng-show="bot.botCode">
+	   	    <div id="viewer" ng-click="editorToggle()" ng-if="simLaunched && !editorOn" class="animated fadeInRight">
 	   	    	<iframe  id="iframe" ng-src="{{playCanvasURL}}" ></iframe>
 	   	    </div>   
 	    </div>
