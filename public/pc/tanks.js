@@ -43,7 +43,7 @@ pc.script.create('tanks', function (context) {
                 newTank.opponentIsTrue=true;
             }
             this.teams.tankAdd(newTank.script.tank, args.team);
-            console.log("args.owner",args.owner)
+            //console.log("args.owner",args.owner)
             if (args.owner == this.client.id) {
                 this.camera.script.link.link = newTank;
                 // if(p===0){
@@ -53,7 +53,7 @@ pc.script.create('tanks', function (context) {
                     this.own= newTank;
                 // }
             }else{
-                console.log("newTank",newTank)
+                //console.log("newTank",newTank)
                 this.opp=newTank;
             }
             

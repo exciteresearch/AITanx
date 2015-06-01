@@ -142,6 +142,7 @@ app.controller('PlayCanvasEditorCtrl',function($scope, $stateParams, $sce, uuid4
         	$scope.playCanvasURL = $sce.trustAsResourceUrl('/pc/index.html?server=fsb'
 				+'&eventID='+eventID
 				+"&botOneID="+bot._id
+				+"&userID="+bot.codedBy
 			);
         	$scope.simLaunched = true;
         }
