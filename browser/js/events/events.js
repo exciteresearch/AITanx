@@ -73,6 +73,7 @@ app.controller('PlayCanvasCtrl',function($rootScope,$scope,$sce){
     	$scope.playCanvasURL = $sce.trustAsResourceUrl('/pc/index.html?server=fsb'
 			+'&eventID='+$scope.$parent.directEventID
 			+"&botOneID="+$scope.$parent.botOneID
+            +"&userID="+$scope.$parent.user._id
 		);
      }
 });

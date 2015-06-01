@@ -16,7 +16,7 @@ var createApplication = function () {
 
 var startServer = function () {
 
-    var PORT = process.env.PORT || 80; //1337
+    var PORT = process.env.PORT || 1337; //1337
 
     server.listen(PORT, function () {
         console.log(chalk.blue('Server started on port', chalk.magenta(PORT)));
@@ -70,8 +70,6 @@ var lobby = new Lobby();
 // socket connection
 ws.on('connection', function(client) {
 	
-	
-	
 	console.log("client.id",client.id);
     client.send('init', {
         id: client.id,
@@ -82,6 +80,13 @@ ws.on('connection', function(client) {
         	client.eventID = data;
         	client.send('eventID',data);
         	lobby.join(client);
+        }
+    });
+
+    client.on('userID', function(data) {       
+        if (!! data ) {
+            client.userID = data;
+            console.log('userID attached to the client socket: ',data);
         }
     });    
     

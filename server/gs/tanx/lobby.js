@@ -1,7 +1,9 @@
 var Vec2 = require('./vec2');
 var Room = require('./room');
 var Pickable = require('./pickable');
-var winningScore=30;
+var User = require('mongoose').model('User');
+
+var winningScore=3;
 function Lobby() {
 //    this.rooms = [ ];
 	this.rooms = { };
@@ -59,8 +61,21 @@ Lobby.prototype.join = function(client) {
         var self = this;
         
         room.on('leave', function() {
-            if (this.clients.length > 0)
+            if (this.clients.length > 1)
                 return;
+
+            if (this.clients.length===1) {
+                
+                if (client.userID) User.findById( client.userID, function(err, user){
+                    if (err) console.log("Couldn't find the winner user in the DB");
+                    else { user.points = user.points + 8;
+                        user.save(function(err, user){
+                            console.log("Couldn't update the winner points in the DB");
+                        });
+                    }//else
+                });
+                room.leave(room.clients[0]);//Update the points and threw game out
+            }
 
             room.loop.stop();
             delete this.rooms[client.eventID];
@@ -204,9 +219,10 @@ Lobby.prototype.update = function() {
 
                         tank.score++;
                         tank.team.score++;
-                        // winner?
+                        
                         if (tank.team.score >= winningScore)
-                            winner = tank.owner.team;
+                            //winner = tank.owner.team;
+                            winner = tank.owner;
                         // total score
                         room.score++;
                         break;
@@ -241,7 +257,8 @@ Lobby.prototype.update = function() {
                                     pickable.ownerTank.team.score+=3;
                                     // winner?
                                     if (pickable.ownerTank.team.score >= winningScore)
-                                        winner = pickable.ownerTank.team;
+                                        //winner = pickable.ownerTank.team;
+                                        winner = pickable.owner;
                                     // total score
                                     room.score+=3;
                                     // bullet.owner.owner.send('point', 1);
@@ -266,7 +283,7 @@ Lobby.prototype.update = function() {
                 
                 self.pickables[pickable.ind].picked = Date.now();
                 self.pickables[pickable.ind].item = null;
-                console.log(self.pickables[pickable.ind])
+                //console.log(self.pickables[pickable.ind])
                 pickable.delete();
             });
         }
@@ -387,7 +404,8 @@ Lobby.prototype.update = function() {
                             bullet.owner.team.score+=3;
                             // winner?
                             if (bullet.owner.team.score >= winningScore)
-                                winner = bullet.owner.team;
+                                //winner = bullet.owner.team;
+                            winner = bullet.owner;
                             // total score
                             room.score++;
                             // bullet.owner.owner.send('point', 1);
@@ -504,7 +522,8 @@ Lobby.prototype.update = function() {
                             flame.owner.team.score+=3;
                             // winner?
                             if (flame.owner.team.score >= winningScore)
-                                winner = flame.owner.team;
+                                //winner = flame.owner.team;
+                            winner = flame.owner;
                             // total score
                             room.score++;
                             // flame.owner.owner.send('point', 1);
@@ -565,8 +584,22 @@ Lobby.prototype.update = function() {
 
     // winner?
     if (winner) {
+
+        console.log("There is a winner", winner.userID);
+
+        if (winner.userID) console.log("Team of the winner", winner.tank.team.id);
+
+        if (winner.userID) User.findById( winner.userID, function(err, user){
+            if (err) console.log("Couldn't find the winner user in the DB");
+            else { user.points = user.points + 8;
+                user.save(function(err, user){
+                    console.log("Couldn't update the winner points in the DB");
+                });
+            }//else
+        }); else console.log("The client has no userID attached");
+
         state.winner = {
-            team: winner.id,
+            team: winner.tank.team.id,
             scores: [ ]
         };
 

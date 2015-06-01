@@ -51,16 +51,20 @@ pc.script.create('client', function (context) {
             var self = this;
             var servers = {
                 'local': 'http://localhost:30043/socket', // local
-                'fsb': 'http://192.168.1.216:30043/socket', //fsb
+                //'fsb': 'http://192.168.1.216:30043/socket', //fsb
                 'fsb': 'http://localhost:30043/socket', //fsbx
-                'fsb': 'http://45.55.187.76:30043/socket', //fsb digital ocean
-                'us': 'http://54.67.22.188:30043/socket', // us
-                'default': 'https://tanx.playcanvas.com/socket' // load balanced
+                //'fsb': 'http://45.55.187.76:30043/socket', //fsb digital ocean
+                // 'us': 'http://54.67.22.188:30043/socket', // us
+                // 'default': 'https://tanx.playcanvas.com/socket' // load balanced
             };
 
             var env = getParameterByName('server') || 'default';
             var eventID = getParameterByName('eventID') || ''; // if no event ID then AI don't move
             var botOneID = getParameterByName('botOneID') || '';
+            var userID = getParameterByName('userID') || '';
+
+            console.log("client.js -> userID:", userID);
+             console.log("client.js -> eventID:", eventID);
 
             var url = env && servers[env] || servers['default'];
 
@@ -85,6 +89,7 @@ pc.script.create('client', function (context) {
                 
                 if(self.connected){
                 	this.socket.send(JSON.stringify({ n:'eventID', d: eventID }));
+                    if (userID) this.socket.send(JSON.stringify({ n:'userID', d: userID }));
 //                	this.socket.send('message');
                 }
                 
@@ -100,13 +105,13 @@ pc.script.create('client', function (context) {
             users.bind(socket);
             
             socket.on('tank.new', function(data) {
-                console.log("data", data)
+                //console.log("data", data)
                 self.tanks.new(data);
             });
             
             // request the spawning of an opponent tank AI
             socket.on('opponentTank.new', function(data) {
-                console.log("data opp", data)
+                //console.log("data opp", data)
                 self.opponent.tanks.new(data);
             });
             
@@ -209,9 +214,9 @@ pc.script.create('client', function (context) {
 
         	
         	// botCode applied using eval()
-        	if(!!botCode){
+        	if(!!botCode){                         
         		var takeActionDeclaration = "this.entity.script.TankAI.takeAction = function(tankPosition){",
-        		preCode = "//preCode Start \r\n\r\nvar pathFinder=function(){\r\n    if(currentPlayer.newPath===true){\r\n    currentPlayer.newPath=false;\r\n    easystar.findPath(Math.round(tankPosition[0]), Math.round(tankPosition[2]), currentPlayer.destinationX, currentPlayer.destinationY, function( path ) {\r\n        if (path === null) {\r\n            console.log(\"Path was not found.\");\r\n            currentPlayer.currentPriority=0;\r\n        } else {\r\n            myPath=path;\r\n        }\r\n    });\r\n    easystar.calculate();\r\n    currentPlayer.destination=true;\r\n}\r\n}\r\nvar wander=function(){\r\n    currentPlayer.newPath=true;\r\n  \r\n    currentPlayer.destinationX=Math.round(Math.random()*48)\r\n    currentPlayer.destinationY=Math.round(Math.random()*48) \r\npathFinder();\r\nconsole.log('wandering?', currentPlayer.destinationX, currentPlayer.destinationY)\r\n    \r\n}\r\nvar seekPriorities=function(){ \r\n    if(currentPlayer.newPath){\r\n     pathFinder();\r\n   }\r\n}\r\n\r\nif(currentPlayer.currentPriority===0&&l===0){\r\n                wander();\r\n                currentPriority=1;\r\n            }\r\n\r\nvar _self = this.entity.script.client;\r\nvar tankDoThis = function(one, two){_self.socket.send(one, two)};\r\n\r\ntankDoThis('move',currentPlayer.movement)\r\neasystar.setGrid(this.pathingMap);\r\neasystar.setAcceptableTiles([0]);\r\neasystar.enableDiagonals();\r\n\r\n            this.tankPosition = tankPosition;\r\nvar stuck=function(){\r\n    if(currentPlayer.lastCheckPoint+3000<Date.now()&&currentPlayer.currentPriority>0){\r\n        currentPlayer.lastCheckPoint=Date.now\r\n      return true  \r\n    }\r\n    return false;\r\n} \r\nvar completedPath=function(){\r\n    if(l>myPath.length-2){\r\n        return true\r\n    }else{return false}\r\n}\r\nvar followPath=function(){\r\n    if (Math.abs(tankPosition[0]-(myPath[l].x))+Math.abs(tankPosition[2]-(myPath[l].y))<0.85){\r\n        currentPlayer.lastCheckPoint=Date.now()\r\n        l++; \r\n    }\r\n    if (tankPosition[0]<myPath[l].x&&tankPosition[2]>myPath[l].y){\r\n       currentPlayer.movement[0]=1\r\n       currentPlayer.movement[1]=-1\r\n\r\n    }\r\n    if (tankPosition[0]>myPath[l].x&&tankPosition[2]<myPath[l].y){\r\n        currentPlayer.movement[0]=-1\r\n        currentPlayer.movement[1]=1\r\n    }\r\n    if(tankPosition[0]>myPath[l].x&&tankPosition[2]>myPath[l].y){\r\n        currentPlayer.movement[0]=-1\r\n       currentPlayer.movement[1]=-1\r\n    }\r\n    if(tankPosition[0]<myPath[l].x&&tankPosition[2]<myPath[l].y){\r\n        currentPlayer.movement[0]=1\r\n       currentPlayer.movement[1]=1\r\n    }\r\n    return currentPlayer.movement\r\n}\r\n            \r\n\r\nvar direction=currentPlayer.movement;\r\nvar stepOfPath=l;\r\nvar turnTurret=function(changeInAngle){\r\n    if(changeInAngle<0){\r\n            if(currentPlayer.turretAngle+changeInAngle>-180){\r\n                    currentPlayer.turretAngle+=changeInAngle\r\n                }else{\r\n                    currentPlayer.turretAngle=180;\r\n                } \r\n               \r\n    }else{\r\n        if (currentPlayer.turretAngle+changeInAngle<180){\r\n                    currentPlayer.turretAngle+=changeInAngle\r\n                }else{\r\n                    currentPlayer.turretAngle=-180;\r\n                }\r\n    }\r\n     return currentPlayer.turretAngle;\r\n}",
+        		preCode = "//preCode Start \r\n\r\nvar pathFinder=function(){\r\n    if(currentPlayer.newPath===true){\r\n    currentPlayer.newPath=false;\r\n    easystar.findPath(Math.round(tankPosition[0]), Math.round(tankPosition[2]), currentPlayer.destinationX, currentPlayer.destinationY, function( path ) {\r\n        if (path === null) {\r\n            currentPlayer.currentPriority=0;\r\n        } else {\r\n            myPath=path;\r\n        }\r\n    });\r\n    easystar.calculate();\r\n    currentPlayer.destination=true;\r\n}\r\n}\r\nvar wander=function(){\r\n    currentPlayer.newPath=true;\r\n  \r\n    currentPlayer.destinationX=Math.round(Math.random()*48)\r\n    currentPlayer.destinationY=Math.round(Math.random()*48) \r\npathFinder();\r\n   \r\n}\r\nvar seekPriorities=function(){ \r\n    if(currentPlayer.newPath){\r\n     pathFinder();\r\n   }\r\n}\r\n\r\nif(currentPlayer.currentPriority===0&&l===0){\r\n                wander();\r\n                currentPriority=1;\r\n            }\r\n\r\nvar _self = this.entity.script.client;\r\nvar tankDoThis = function(one, two){_self.socket.send(one, two)};\r\n\r\ntankDoThis('move',currentPlayer.movement)\r\neasystar.setGrid(this.pathingMap);\r\neasystar.setAcceptableTiles([0]);\r\neasystar.enableDiagonals();\r\n\r\n            this.tankPosition = tankPosition;\r\nvar stuck=function(){\r\n    if(currentPlayer.lastCheckPoint+3000<Date.now()&&currentPlayer.currentPriority>0){\r\n        currentPlayer.lastCheckPoint=Date.now\r\n      return true  \r\n    }\r\n    return false;\r\n} \r\nvar completedPath=function(){\r\n    if(l>myPath.length-2){\r\n        return true\r\n    }else{return false}\r\n}\r\nvar followPath=function(){\r\n    if (Math.abs(tankPosition[0]-(myPath[l].x))+Math.abs(tankPosition[2]-(myPath[l].y))<0.85){\r\n        currentPlayer.lastCheckPoint=Date.now()\r\n        l++; \r\n    }\r\n    if (tankPosition[0]<myPath[l].x&&tankPosition[2]>myPath[l].y){\r\n       currentPlayer.movement[0]=1\r\n       currentPlayer.movement[1]=-1\r\n\r\n    }\r\n    if (tankPosition[0]>myPath[l].x&&tankPosition[2]<myPath[l].y){\r\n        currentPlayer.movement[0]=-1\r\n        currentPlayer.movement[1]=1\r\n    }\r\n    if(tankPosition[0]>myPath[l].x&&tankPosition[2]>myPath[l].y){\r\n        currentPlayer.movement[0]=-1\r\n       currentPlayer.movement[1]=-1\r\n    }\r\n    if(tankPosition[0]<myPath[l].x&&tankPosition[2]<myPath[l].y){\r\n        currentPlayer.movement[0]=1\r\n       currentPlayer.movement[1]=1\r\n    }\r\n    return currentPlayer.movement\r\n}\r\n            \r\n\r\nvar direction=currentPlayer.movement;\r\nvar stepOfPath=l;\r\nvar turnTurret=function(changeInAngle){\r\n    if(changeInAngle<0){\r\n            if(currentPlayer.turretAngle+changeInAngle>-180){\r\n                    currentPlayer.turretAngle+=changeInAngle\r\n                }else{\r\n                    currentPlayer.turretAngle=180;\r\n                } \r\n               \r\n    }else{\r\n        if (currentPlayer.turretAngle+changeInAngle<180){\r\n                    currentPlayer.turretAngle+=changeInAngle\r\n                }else{\r\n                    currentPlayer.turretAngle=-180;\r\n                }\r\n    }\r\n     return currentPlayer.turretAngle;\r\n}",
         		postCode = "// postCode start \r\n\r\n//nothing below this should be visible:\r\n           this.entity.script.tanks.own.targeting(currentPlayer.turretAngle);\r\n           \r\n           if(currentPlayer.turretAngle<=0){\r\n               var neg=(currentPlayer.turretAngle+180)\r\n           }else{\r\n               var neg=(currentPlayer.turretAngle-180)\r\n           }\r\n           tankDoThis('target', neg);\r\n           \r\n           \r\n           \r\n\r\n           // rotate vector\r\n           \r\n           var t =       currentPlayer.movement[0] * Math.sin(Math.PI * 0.75) - currentPlayer.movement[1] * Math.cos(Math.PI * 0.75);\r\n           currentPlayer.movement[1] = currentPlayer.movement[1] * Math.sin(Math.PI * 0.75) + currentPlayer.movement[0] * Math.cos(Math.PI * 0.75);\r\n           currentPlayer.movement[0] = t;\r\n // postCode end \r\n}";
         		var evalCode = takeActionDeclaration + preCode + botCode + postCode;
         		eval(evalCode);

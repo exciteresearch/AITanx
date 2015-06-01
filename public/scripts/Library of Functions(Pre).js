@@ -62,7 +62,7 @@ var pathFinder=function(){
 		currentPlayer.newPath=false;
 		easystar.findPath(Math.round(tankPosition[0]), Math.round(tankPosition[2]), currentPlayer.destinationX, currentPlayer.destinationY, function( path ) {
 			if (path === null) {
-				console.log("Path was not found.");
+				//console.log("Path was not found.");
 				currentPlayer.currentPriority=0;
 			} else {
 				myPath=path;
