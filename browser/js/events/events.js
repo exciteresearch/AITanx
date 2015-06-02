@@ -56,7 +56,7 @@ app.controller('LaunchBotModalCtrl', function ($rootScope, $scope, $stateParams,
     
 });
 
-app.controller('PlayCanvasCtrl',function($rootScope,$scope,$sce){
+app.controller('PlayCanvasEventsCtrl',function($rootScope,$scope,$sce){
 	 //playCanvas URL can be changed to anything including:
 	 // FullStackBots: /pc/index.html ,
 	 // FSB: http://playcanv.as/p/bbMQlNMt?server=fsb,

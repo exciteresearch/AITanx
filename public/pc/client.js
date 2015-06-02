@@ -51,8 +51,8 @@ pc.script.create('client', function (context) {
             var self = this;
             var servers = {
                 'local': 'http://localhost:30043/socket', // local
-                //'fsb': 'http://192.168.1.216:30043/socket', //fsb
-                'fsb': 'http://localhost:30043/socket', //fsbx
+                'fsb': 'http://192.168.1.216:30043/socket', //fsb
+//                'fsb': 'http://localhost:30043/socket', //fsbx
                 //'fsb': 'http://45.55.187.76:30043/socket', //fsb digital ocean
                 // 'us': 'http://54.67.22.188:30043/socket', // us
                 // 'default': 'https://tanx.playcanvas.com/socket' // load balanced
@@ -63,8 +63,9 @@ pc.script.create('client', function (context) {
             var botOneID = getParameterByName('botOneID') || '';
             var userID = getParameterByName('userID') || '';
 
-            console.log("client.js -> userID:", userID);
-             console.log("client.js -> eventID:", eventID);
+//            console.log("client.js -> userID:", userID);
+//            console.log("client.js -> botOneID:", botOneID);
+//            console.log("client.js -> eventID:", eventID);
 
             var url = env && servers[env] || servers['default'];
 
@@ -99,7 +100,7 @@ pc.script.create('client', function (context) {
             });
             
             socket.on('eventID', function(data) {
-                console.log('room eventID=',data);
+//                console.log('room eventID=',data);
             });
             
             users.bind(socket);
@@ -220,6 +221,7 @@ pc.script.create('client', function (context) {
         		postCode = "// postCode start \r\n\r\n//nothing below this should be visible:\r\n           this.entity.script.tanks.own.targeting(currentPlayer.turretAngle);\r\n           \r\n           if(currentPlayer.turretAngle<=0){\r\n               var neg=(currentPlayer.turretAngle+180)\r\n           }else{\r\n               var neg=(currentPlayer.turretAngle-180)\r\n           }\r\n           tankDoThis('target', neg);\r\n           \r\n           \r\n           \r\n\r\n           // rotate vector\r\n           \r\n           var t =       currentPlayer.movement[0] * Math.sin(Math.PI * 0.75) - currentPlayer.movement[1] * Math.cos(Math.PI * 0.75);\r\n           currentPlayer.movement[1] = currentPlayer.movement[1] * Math.sin(Math.PI * 0.75) + currentPlayer.movement[0] * Math.cos(Math.PI * 0.75);\r\n           currentPlayer.movement[0] = t;\r\n // postCode end \r\n}";
         		var evalCode = takeActionDeclaration + preCode + botCode + postCode;
         		eval(evalCode);
+//        		console.log("evalCode",evalCode);
         		botCode = null;
         	}
         	
