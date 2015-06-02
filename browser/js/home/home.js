@@ -12,6 +12,15 @@ app.controller('SideMenuCtrl',function($scope){
 	
 });
 
+app.controller('PlayCanvasHomeCtrl',function($scope,$sce){
+	$scope.playCanvasURL = $sce.trustAsResourceUrl('/pc/index.html?server=fsb'
+//			+'&eventID='+$scope.$parent.directEventID
+			+"&botOneID="+'5564d37998ad382e0a49294c'
+//			+$scope.$parent.botOneID
+//            +"&userID="+$scope.$parent.user._id
+	);
+});
+
 app.controller('msgCtrl',function($scope) {
     if (typeof(EventSource) !== "undefined") {
     	
