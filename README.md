@@ -1,6 +1,5 @@
 
-- Welcome to AITanx 
-A definitive Artificial Intelligence Tank JavaScript coding experience
+Welcome to AITanx - A definitive Artificial Intelligence Tank JavaScript coding experience
 ==============
 version 1.0.0
 Learn to Code Robots in a 3D Arena
